@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Windows XP Experience</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="lockScreen" class="screen lock-screen">
+        <div class="status-bar">
+            <span>8:30 PM</span>
+            <div class="status-icons">
+                <span>📶 5G</span>
+                <span>🔋</span>
+            </div>
+        </div>
+    
+        <div class="lock-main-content">
+            <h1 id="lockTime">00.00</h1>
+            <p id="lockDate" class="lock-date">Memuat Tanggal...</p>
+            
+        </div>
+    
+        <div class="swipe-area" id="touchArea">
+            <span class="arrow-up">︿</span>
+            <p>Swipe up untuk login</p>
+        </div>
+    </div>
+
+    <div id="loginScreen" class="screen login-screen" style="display: none;">
+        <div class="login-overlay">
+            
+            <div class="back-btn" onclick="backToLock()">❮</div>
+    
+            <div class="login-container">
+                <div class="profile-section">
+                    <div class="avatar-circle">
+                        <img src="asset/gallery/4.jfif" alt="User">
+                    </div>
+                    <h2 class="username">USER PC</h2>
+                </div>
+    
+                <div class="login-form">
+                    <div class="input-box user-box">
+                        <input type="text" value="Biass" readonly>
+                    </div>
+                    <div class="input-box pass-box">
+                        <input type="password" id="passwordField" placeholder="Password">
+                        <button class="submit-btn" onclick="goToDesktop()">➔</button>
+                    </div>
+                    <a href="#" class="sign-in-options">Sign-in options</a>
+                </div>
+            </div>
+    
+            <div class="login-footer">
+                <div class="footer-icons">
+                    <span title="Ease of Access">💻</span>
+                    <span title="Restart">↻</span>
+                    <span title="Power">⏻</span>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+    <script src="script.js"></script>
+</body>
+</html>

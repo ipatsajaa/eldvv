@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Mobile Desktop</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body, html {
+            margin: 0; padding: 0;
+            height: 100%; width: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .desktop-screen {
+            background: url('https://i.pinimg.com/1200x/37/f9/6e/37f96e5603307d23ac4a1013f478fbea.jpg') no-repeat center center;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Status Bar */
+        .desktop-status-bar {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            font-size: 12px;
+            padding: 8px 15px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* GRID SISTEM: 4 Kolom per Baris */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Ini kuncinya: 4 kolom */
+            gap: 20px 10px; /* Jarak atas-bawah 20px, kiri-kanan 10px */
+            padding: 20px;
+            width: 100%;
+        }
+
+        .app-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .app-item:active { transform: scale(0.9); }
+
+        .app-icon {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .app-item span {
+            color: white;
+            font-size: 11px;
+            margin-top: 8px;
+            text-align: center;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Taskbar */
+        .desktop-taskbar {
+            position: absolute;
+            bottom: 0; width: 100%; height: 55px;
+            background: rgba(0, 114, 198, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .win-btn, .search-btn {
+            background: transparent; border: none; color: white;
+            font-size: 24px; cursor: pointer;
+        }
+
+        .taskbar-right { color: white; text-align: right; }
+        .taskbar-time { font-size: 14px; font-weight: 600; }
+        .taskbar-date { font-size: 10px; opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="desktop-screen">
+        <div class="desktop-status-bar">
+            <span>Operator</span>
+            <span>📶 5G 🔋</span>
+        </div>
+    
+        <div class="app-grid">
+            <div class="app-item" onclick="window.location.href='message.html'">
+                <img src="https://win98icons.alexmeub.com/icons/png/envelope_closed-0.png" class="app-icon">
+                <span>Message</span>
+            </div>
+            <div class="app-item" onclick="window.location.href='spotify.html'">
+                <img src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd_a-4.png" class="app-icon">
+                <span>Spotify</span>
+            </div>
+            <div class="app-item" onclick="window.location.href='gallery.html'">
+                <img src="https://win98icons.alexmeub.com/icons/png/briefcase-2.png" class="app-icon">
+                <span>Gallery</span>
+            </div>
+            <div class="app-item" onclick="window.location.href='paint.html'">
+                <img src="https://win98icons.alexmeub.com/icons/png/paint_old-0.png" class="app-icon">
+                <span>Paint</span>
+            </div>
+
+            <div class="app-item" onclick="window.location.href='https://ipatsajaa.github.io/cobacoba/layout.html'">
+                <img src="https://win98icons.alexmeub.com/icons/png/camera3-2.png" class="app-icon">
+                <span>Photobooth</span>
+            </div>
+            <div class="app-item" onclick="window.location.href='camera.html'">
+                <img src="https://win98icons.alexmeub.com/icons/png/camera-2.png" class="app-icon">
+                <span>Camera</span>
+            </div>
+            <div class="app-item" onclick="window.location.href='flower.html'">
+                <img src="https://win98icons.alexmeub.com/icons/png/msn3-5.png" class="app-icon">
+                <span>Flower</span>
+            </div>
+            <div class="app-item" onclick="window.location.href='tetris.html'">
+                <img src="https://win98icons.alexmeub.com/icons/png/game_hearts.png" class="app-icon">
+                <span>Tetris</span>
+            </div>
+
+            <div class="app-item" onclick="window.location.href='Undangan.html'">
+                <img src="https://win98icons.alexmeub.com/icons/png/message_envelope_open-0.png" class="app-icon">
+                <span>Invitation</span>
+            </div>
+        </div>
+    
+        <div class="desktop-taskbar">
+            <div class="taskbar-left">
+                <button class="win-btn">⊞</button>
+                <button class="search-btn">🔍</button>
+            </div>
+            <div class="taskbar-right">
+                <div id="taskbar-time" class="taskbar-time">00.00</div>
+                <div id="taskbar-date" class="taskbar-date">00/00/0000</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const sekarang = new Date();
+            const jam = String(sekarang.getHours()).padStart(2, '0');
+            const menit = String(sekarang.getMinutes()).padStart(2, '0');
+            const tgl = String(sekarang.getDate()).padStart(2, '0');
+            const bln = String(sekarang.getMonth() + 1).padStart(2, '0');
+            const thn = sekarang.getFullYear();
+            document.getElementById('taskbar-time').textContent = `${jam}.${menit}`;
+            document.getElementById('taskbar-date').textContent = `${tgl}/${bln}/${thn}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+/* Reset Dasar */
+body, html { margin: 0; padding: 0; height: 100%; font-family: 'Tahoma', sans-serif; overflow: hidden; }
+.screen { width: 100%; height: 100vh; position: absolute; top: 0; left: 0; transition: 0.5s; }
+
+/* LOCK SCREEN */
+/* Container Utama Layar */
+.lock-screen {
+    background: url('https://i.pinimg.com/1200x/37/f9/6e/37f96e5603307d23ac4a1013f478fbea.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Membagi atas, tengah, dan bawah */
+    align-items: center;
+    color: white;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+/* Baris Status Atas */
+.status-bar {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Konten Jam Tengah */
+.lock-main-content {
+    text-align: center;
+    margin-top: -100px; /* Menarik jam agak ke atas */
+}
+
+.lock-main-content h1 {
+    font-size: 80px;
+    margin: 0;
+    font-weight: 300;
+}
+
+.lock-date {
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+/* Bagian Bawah (Swipe) */
+.swipe-area {
+    margin-bottom: 40px;
+    text-align: center;
+    cursor: pointer;
+    animation: bounce 2s infinite; /* Efek membal halus */
+}
+
+.arrow-up {
+    font-size: 80px;
+    display: block;
+}
+
+.swipe-area p {
+    font-size: 50px;
+    margin-top: 5px;
+}
+
+/* Animasi sederhana untuk teks swipe */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-10px);}
+    60% {transform: translateY(-5px);}
+}
+
+/* LOGIN SCREEN */
+/* Layout Utama Login */
+.login-screen {
+    background: url('https://i.pinimg.com/1200x/37/f9/6e/37f96e5603307d23ac4a1013f478fbea.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-overlay {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Gelap transparan */
+    backdrop-filter: blur(10px); /* Efek Blur di gambar #2 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Tombol Kembali */
+.back-btn {
+    position: absolute;
+    top: 40px;
+    left: 30px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Profil */
+/* Container Avatar */
+.avatar-circle {
+    width: 120px;          /* Tentukan lebar tetap */
+    height: 120px;         /* Tentukan tinggi tetap yang sama dengan lebar */
+    border-radius: 50%;    /* Ini yang membuat bentuk jadi bulat sempurna */
+    overflow: hidden;      /* Memastikan gambar yang keluar jalur dipotong */
+    border: 3px solid white; /* Opsional: memberi bingkai putih agar lebih manis */
+    margin: 0 auto 15px;   /* Meratakan ke tengah dan memberi jarak bawah */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ccc; /* Warna dasar jika gambar gagal dimuat */
+}
+
+/* Gambar di dalam Avatar */
+.avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;     /* Sangat Penting! Agar gambar tidak gepeng/lonjong */
+    display: block;
+}
+.username { color: white; font-weight: 300; margin-bottom: 25px; text-align: center; }
+
+/* Input Fields */
+.input-box {
+    width: 260px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.user-box input {
+    width: 100%;
+    padding: 10px;
+    background: white;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.pass-box {
+    display: flex;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+.pass-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 10px;
+    outline: none;
+}
+
+.submit-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 0 15px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.sign-in-options {
+    display: block;
+    text-align: center;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+/* Footer Icons */
+.login-footer {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+}
+
+.footer-icons {
+    display: flex;
+    gap: 20px;
+    color: white;
+    font-size: 20px;
+    opacity: 0.8;
+}
+/* Definisi Gerakan Getar */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+}
+
+/* Class yang akan dipicu oleh JS */
+.shake-animation {
+    animation: shake 0.3s ease-in-out;
+    border: 1px solid #ff4d4d !important; /* Opsional: Ubah border jadi merah saat salah */
+}
+
+/* DESKTOP SCREEN */

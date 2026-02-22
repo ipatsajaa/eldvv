@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery - Faniww</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html {
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            overflow: hidden; font-family: 'Segoe UI', sans-serif;
+            background: #000;
+        }
+
+        .desktop-screen {
+            background: url('https://i.pinimg.com/1200x/37/f9/6e/37f96e5603307d23ac4a1013f478fbea.jpg') no-repeat center center;
+            background-size: cover;
+            height: 100vh; display: flex; justify-content: center; align-items: center;
+            position: relative;
+        }
+
+        /* Window Style (Gambar #6) */
+        .window {
+            width: 92%; max-width: 380px;
+            background: #ffffff; border-radius: 8px 8px 0 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            display: flex; flex-direction: column;
+            animation: zoomIn 0.3s ease-out;
+            z-index: 10;
+        }
+
+        @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Title Bar */
+        .title-bar {
+            background: #ffffff; padding: 6px 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .title-left { font-size: 12px; color: #333; display: flex; align-items: center; gap: 5px; }
+        .title-controls { display: flex; gap: 12px; font-size: 14px; color: #666; }
+        .close-btn:hover { color: red; cursor: pointer; }
+
+        /* Header Biru */
+        .window-header {
+            background: #0078d4; color: white; padding: 10px 15px;
+            font-weight: 500; font-size: 14px;
+        }
+
+        /* Area Gallery */
+        .gallery-content {
+            background: #001e36; padding: 10px;
+            height: 480px; display: flex; flex-direction: column; gap: 10px;
+        }
+
+        /* Main Image/Video Viewer */
+        .main-viewer {
+            position: relative;
+            flex: 1;
+            background: #000;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .main-viewer img, .main-viewer video {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+        }
+
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.5); color: white; border: none;
+            padding: 15px 10px; cursor: pointer; font-size: 20px; z-index: 5;
+        }
+        .prev { left: 0; border-radius: 0 4px 4px 0; }
+        .next { right: 0; border-radius: 4px 0 0 4px; }
+
+        .img-counter {
+            position: absolute; bottom: 10px; left: 10px;
+            color: white; font-size: 12px; background: rgba(0,0,0,0.6);
+            padding: 2px 8px; border-radius: 10px; z-index: 5;
+        }
+
+        /* Thumbnail Bar (Bisa Digeser) */
+        .thumbnail-bar {
+            display: flex;
+            gap: 10px;
+            background: #002a4d;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: thin;
+            scrollbar-color: #0078d4 #001e36;
+        }
+
+        /* Custom scrollbar */
+        .thumbnail-bar::-webkit-scrollbar { height: 6px; }
+        .thumbnail-bar::-webkit-scrollbar-thumb { background: #0078d4; border-radius: 10px; }
+
+        .thumb {
+            position: relative;
+            flex: 0 0 70px;
+            height: 70px;
+            background: #333;
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .thumb.active { border-color: #0078d4; }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Ikon Video di Thumbnail */
+        .thumb.is-video::after {
+            content: '▶';
+            position: absolute;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: white; background: rgba(0,0,0,0.6);
+            width: 24px; height: 24px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 10px; border: 1px solid white;
+        }
+
+        /* Taskbar Bawah */
+        .desktop-taskbar {
+            position: absolute; bottom: 0; width: 100%; height: 50px;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 15px; color: white;
+        }
+        .active-app-indicator { border-bottom: 3px solid #0078d4; padding-bottom: 3px; font-size: 20px; }
+        .taskbar-right { text-align: right; font-size: 11px; }
+    </style>
+</head>
+<body>
+
+    <div class="desktop-screen">
+        <div class="window">
+            <div class="title-bar">
+                <div class="title-left">🖼 Photo Gallery</div>
+                <div class="title-controls">
+                    <span>—</span> <span>❐</span> <span class="close-btn" onclick="location.href='desktop.html'">×</span>
+                </div>
+            </div>
+
+            <div class="window-header">Photo Gallery</div>
+
+            <div class="gallery-content">
+                <div class="main-viewer">
+                    <button class="nav-btn prev" onclick="changeImage(-1)">❮</button>
+                    
+                    <img id="display-img" src="" alt="Gallery">
+                    <video id="display-video" controls style="display:none;"></video>
+                    
+                    <button class="nav-btn next" onclick="changeImage(1)">❯</button>
+                    <div class="img-counter"><span id="current-idx">1</span> / <span id="total-idx">9</span></div>
+                </div>
+
+                <div class="thumbnail-bar" id="thumb-bar">
+                    <div class="thumb active" onclick="setImg(0)"><img src="asset/gallery/1.jfif"></div>
+                    <div class="thumb" onclick="setImg(1)"><img src="asset/gallery/2.jfif"></div>
+                    <div class="thumb" onclick="setImg(2)"><img src="asset/gallery/3.jfif"></div>
+                    <div class="thumb" onclick="setImg(3)"><img src="asset/gallery/4.jfif"></div>
+                    <div class="thumb" onclick="setImg(4)"><img src="asset/gallery/5.jfif"></div>
+                    <div class="thumb" onclick="setImg(5)"><img src="asset/gallery/6.jfif"></div>
+                    <div class="thumb" onclick="setImg(6)"><img src="asset/gallery/7.jfif"></div>
+                    <div class="thumb" onclick="setImg(7)"><img src="asset/gallery/8.jfif"></div>
+                    <div class="thumb" onclick="setImg(8)"><img src="asset/gallery/9.jfif"></div>
+                    <div class="thumb is-video" onclick="setImg(9)"><img src="asset/gallery/10.jfif"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="desktop-taskbar">
+            <div class="taskbar-left" style="display:flex; align-items:center; gap:15px;">
+                <span style="font-size: 22px;">⊞</span>
+                <span style="font-size: 18px;">🔍</span>
+                <div class="active-app-indicator">🖼</div>
+            </div>
+            <div class="taskbar-right">
+                <div id="time">00.00</div>
+                <div id="date">00/00/0000</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Daftar file: sesuaikan ekstensi .mp4 jika ada video
+        const photos = [
+            "asset/gallery/1.jfif",
+            "asset/gallery/2.jfif",
+            "asset/gallery/3.jfif", // Contoh file video
+            "asset/gallery/4.jfif",
+            "asset/gallery/5.jfif",
+            "asset/gallery/6.jfif",
+            "asset/gallery/7.jfif",
+            "asset/gallery/8.jfif",
+            "asset/gallery/9.jfif",
+            "asset/gallery/10.mp4" // Contoh file video
+        ];
+
+        let currentIndex = 0;
+        document.getElementById('total-idx').textContent = photos.length;
+
+        function updateGallery() {
+            const imgEl = document.getElementById('display-img');
+            const videoEl = document.getElementById('display-video');
+            const currentPath = photos[currentIndex];
+            
+            // Logika Deteksi Video
+            if (currentPath.toLowerCase().endsWith('.mp4')) {
+                imgEl.style.display = 'none';
+                videoEl.style.display = 'block';
+                videoEl.src = currentPath;
+                videoEl.play();
+            } else {
+                imgEl.style.display = 'block';
+                videoEl.style.display = 'none';
+                videoEl.pause();
+                imgEl.src = currentPath;
+            }
+
+            document.getElementById('current-idx').textContent = currentIndex + 1;
+            
+            // Update Visual Thumbnail & Auto-Scroll
+            const thumbs = document.querySelectorAll('.thumb');
+            thumbs.forEach((t, i) => {
+                if(i === currentIndex) {
+                    t.classList.add('active');
+                    t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    t.classList.remove('active');
+                }
+            });
+        }
+
+        function changeImage(dir) {
+            currentIndex += dir;
+            if (currentIndex < 0) currentIndex = photos.length - 1;
+            if (currentIndex >= photos.length) currentIndex = 0;
+            updateGallery();
+        }
+
+        function setImg(index) {
+            currentIndex = index;
+            updateGallery();
+        }
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('time').textContent = now.getHours().toString().padStart(2,'0') + "." + now.getMinutes().toString().padStart(2,'0');
+            document.getElementById('date').textContent = now.getDate().toString().padStart(2,'0') + "/" + (now.getMonth()+1).toString().padStart(2,'0') + "/" + now.getFullYear();
+        }
+
+        window.onload = () => {
+            updateGallery();
+            setInterval(updateClock, 1000);
+            updateClock();
+        };
+    </script>
+</body>
+</html>

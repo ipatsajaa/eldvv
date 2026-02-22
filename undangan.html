@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Invitation | Fatahillah Akbar</title>
+    <style>
+        /* Modern Reset */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html {
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            overflow: hidden; font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: #1a1a1a;
+        }
+
+        .desktop-screen {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('https://i.pinimg.com/1200x/37/f9/6e/37f96e5603307d23ac4a1013f478fbea.jpg') no-repeat center center;
+            background-size: cover;
+            height: 100vh; display: flex; justify-content: center; align-items: center;
+            position: relative;
+        }
+
+        /* Jendela Program */
+        .window {
+            width: 90%; max-width: 420px;
+            background: #ffffff; border-radius: 16px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+            display: flex; flex-direction: column;
+            animation: windowPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10; border: 1px solid rgba(255,255,255,0.2);
+            overflow: hidden;
+        }
+
+        @keyframes windowPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .title-bar {
+            background: #fdfdfd; padding: 12px 18px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .title-left { font-size: 13px; color: #666; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+        .title-controls { display: flex; gap: 15px; font-size: 16px; color: #ccc; }
+
+        .content-body {
+            background: #ffffff; padding: 25px;
+            max-height: 70vh; overflow-y: auto;
+        }
+
+        /* Tampilan Teks Undangan yang Rapi */
+        .message-card { text-align: left; }
+        
+        .invitation-icon { 
+            font-size: 50px; text-align: center; margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .invitation-title {
+            font-size: 22px; font-weight: 800; text-align: center;
+            margin-bottom: 20px; color: #0078d7;
+        }
+
+        .invitation-text {
+            color: #444; line-height: 1.8; font-size: 14px;
+            background: #f9f9f9; padding: 20px; border-radius: 12px;
+            border-left: 4px solid #0078d7; margin-bottom: 25px;
+        }
+
+        .info-box { margin: 15px 0; font-weight: 600; color: #0078d7; }
+
+        /* Button Group Area */
+        .btn-group {
+            display: flex; justify-content: center; gap: 15px;
+            width: 100%; min-height: 60px; position: relative;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 25px; border-radius: 50px; border: none;
+            font-weight: 700; cursor: pointer; font-size: 14px;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .btn-yes { background: #0078d7; color: white; z-index: 5; }
+        .btn-no { background: #eee; color: #888; white-space: nowrap; }
+
+        /* Success Overlay Rapi */
+        #success-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.98); z-index: 100;
+            flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; animation: fadeIn 0.5s ease;
+        }
+
+        .success-card {
+            background: white; padding: 40px; border-radius: 24px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            max-width: 320px;
+        }
+
+        /* Taskbar */
+        .desktop-taskbar {
+            position: absolute; bottom: 0; width: 100%; height: 55px;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(15px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 20px; border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .taskbar-left { display: flex; align-items: center; gap: 20px; }
+        .taskbar-icon { font-size: 22px; cursor: pointer; color: #333; }
+        .active-app { color: #0078d7; position: relative; }
+        .active-app::after {
+            content: ''; position: absolute; bottom: -8px; left: 50%;
+            transform: translateX(-50%); width: 4px; height: 4px;
+            background: #0078d7; border-radius: 50%;
+        }
+        .taskbar-right { text-align: right; font-size: 11px; font-weight: 600; color: #333; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="desktop-screen">
+        <div class="window">
+            <div class="title-bar">
+                <div class="title-left"><span>💌</span> System Invitation</div>
+                <div class="title-controls"><span>—</span> <span>❐</span> <span onclick="location.href='desktop.html'">×</span></div>
+            </div>
+
+            <div class="content-body">
+                <div class="message-card">
+                    <div class="invitation-icon">✨🍽️</div>
+                    <div class="invitation-title">Mabar Makan Bareng</div>
+                    
+                    <div class="invitation-text">
+                        Assalamu’alaikum <b>Biass</b>, <br><br>
+                        Aku mau ngajak kamu buat makan bareng dan <i>quality time</i> berdua. Nggak perlu yang mewah, yang penting kita bisa duduk satu meja, ngobrol, dan bikin momen kecil yang berarti. <br><br>
+                        
+                        <div class="info-box">
+                            📍 Kedai Ibu gasii (atau request kamu)<br>
+                            📅 gimana freenya kamu deh<br>
+                            ⏰ 17.00 WIB - Selesai
+                        </div>
+
+                        Makanannya enak, tapi kalau sama kamu rasanya jadi lebih spesial 🤍 Semoga kamu bilang iya ya!
+                        <br><br>
+                        <b>Salam hangat,</b><br>
+                        (Fatahillah Akbar)
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-yes" id="btnYes" onclick="accepted()">Mau Banget!</button>
+                        <button class="btn btn-no" id="btnNo">Nggak Mau</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="desktop-taskbar">
+            <div class="taskbar-left">
+                <span class="taskbar-icon" onclick="location.href='Undangan.html'">⊞</span>
+                <span class="taskbar-icon">🔍</span>
+                <span class="taskbar-icon active-app">💌</span>
+            </div>
+            <div class="taskbar-right">
+                <div id="time">00:00</div>
+                <div id="date">00/00/0000</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="success-overlay">
+        <div class="success-card">
+            <div style="font-size: 60px; margin-bottom: 20px;">🥳🤪</div>
+            <h1 style="color: #0078d7; font-size: 26px; margin: 0 0 10px 0;">I Knew It!</h1>
+            <p style="color: #666; font-size: 15px; line-height: 1.5; margin-bottom: 25px;">
+                Yeay! Pilihan yang tepat. <br>Nanti kabari aku lewat chat ya, ditunggu biass
+            </p>
+            <button class="btn btn-yes" style="width: 100%; max-width: none;" onclick="location.href='desktop.html'">Kembali ke Desktop</button>
+        </div>
+    </div>
+
+    <script>
+        const btnNo = document.getElementById('btnNo');
+        const btnYes = document.getElementById('btnYes');
+        let yesSize = 1; // Skala awal tombol terima
+
+        function moveButton() {
+            // 1. Tombol Tolak menghindar
+            const padding = 50;
+            const maxX = window.innerWidth - btnNo.clientWidth - padding;
+            const maxY = window.innerHeight - btnNo.clientHeight - padding;
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+            
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = randomX + 'px';
+            btnNo.style.top = randomY + 'px';
+            btnNo.style.zIndex = '999';
+
+            // 2. Tombol Terima membesar
+            yesSize += 0.3; // Tambah ukuran 30% setiap kali tolak didekati
+            btnYes.style.transform = `scale(${yesSize})`;
+            
+            // Efek tambahan: makin besar makin "bercahaya"
+            btnYes.style.boxShadow = `0 ${4 * yesSize}px ${12 * yesSize}px rgba(0,120,215,0.3)`;
+        }
+
+        btnNo.addEventListener('mouseover', moveButton);
+        btnNo.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        function accepted() {
+            document.getElementById('success-overlay').style.display = 'flex';
+        }
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('time').textContent = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
+            document.getElementById('date').textContent = now.getDate().toString().padStart(2,'0') + "/" + (now.getMonth()+1).toString().padStart(2,'0') + "/" + now.getFullYear();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>

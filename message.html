@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message for Biass</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html {
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            overflow: hidden; font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        .desktop-screen {
+            background: url('https://i.pinimg.com/1200x/37/f9/6e/37f96e5603307d23ac4a1013f478fbea.jpg') no-repeat center center;
+            background-size: cover;
+            height: 100vh; display: flex; justify-content: center; align-items: center;
+            position: relative;
+        }
+
+        /* Jendela Program Windows */
+        .window {
+            width: 92%; max-width: 380px;
+            background: #ffffff; border-radius: 8px 8px 0 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            display: flex; flex-direction: column;
+            animation: zoomIn 0.3s ease-out;
+            z-index: 10;
+        }
+
+        @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Title Bar Putih */
+        .title-bar {
+            background: #ffffff; padding: 6px 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .title-left { font-size: 12px; color: #333; display: flex; align-items: center; gap: 5px; }
+        .title-controls { display: flex; gap: 12px; font-size: 14px; color: #666; }
+        .close-btn:hover { color: red; cursor: pointer; }
+
+        /* Header Ungu (Ciri Khas Gambar #4) */
+        .window-header {
+            background: #c131d6; color: white; padding: 10px 15px;
+            font-weight: 500; font-size: 14px; display: flex; align-items: center; gap: 8px;
+        }
+
+        /* Area Konten Pesan */
+        .content-body {
+            background: #f4f7f9; padding: 20px;
+            height: 420px; overflow-y: auto;
+            position: relative;
+        }
+
+        /* Kartu Putih (Floating Card) */
+        .message-card {
+            background: white; border-radius: 15px;
+            padding: 25px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: relative; overflow: hidden;
+            min-height: 100%;
+        }
+
+        /* Dekorasi Kue & Confetti (Gambar #4) */
+        .decor-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .cake-img { font-size: 45px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        .emoji-right { font-size: 30px;  border-radius: 50%; padding: 2px; }
+
+        /* Teks Judul Pelangi/Gradient */
+        .birthday-title {
+            text-align: center; font-size: 22px; font-weight: 800;
+            margin: 10px 0 20px 0; color: #c131d6;
+            letter-spacing: -0.5px;
+        }
+
+        .message-content {
+            color: #444; line-height: 1.7; font-size: 14px;
+            white-space: pre-line;
+        }
+
+        /* Taskbar Bawah (Gambar #4) */
+        .desktop-taskbar {
+            position: absolute; bottom: 0; width: 100%; height: 50px;
+            background:  rgba(0, 137, 216, 0.85); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 15px; border-top: 1px solid rgba(255,255,255,0.1); color: white;
+        }
+
+        .taskbar-left { display: flex; align-items: center; gap: 15px; }
+        .active-icon-container { position: relative; }
+        .active-app-indicator {
+            border-bottom: 3px solid #c131d6; padding-bottom: 3px; font-size: 20px;
+        }
+        .notif-badge {
+            position: absolute; top: -5px; right: -8px;
+            background: #ff3b30; color: white; font-size: 10px;
+            width: 16px; height: 16px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            border: 1.5px solid black;
+        }
+
+        .taskbar-right { text-align: right; font-size: 11px; line-height: 1.2; }
+    </style>
+</head>
+<body>
+
+    <div class="desktop-screen">
+        <div class="window">
+            <div class="title-bar">
+                <div class="title-left"><span style="color:#c131d6">✉</span> Message</div>
+                <div class="title-controls">
+                    <span>—</span> <span>❐</span> <span class="close-btn" onclick="location.href='desktop.html'">×</span>
+                </div>
+            </div>
+
+            <div class="window-header"><span>✉</span> Message</div>
+
+            <div class="content-body">
+                <div class="message-card" onclick="skipTypewriter()">
+                    <div class="decor-top">
+                        <div class="cake-img">🎂</div>
+                        <div class="emoji-right">🌷</div>
+                    </div>
+
+                    <div class="birthday-title">✨Happy Birthday!✨</div>
+
+                    <div id="typewriter" class="message-content">>></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="desktop-taskbar">
+            <div class="taskbar-left">
+                <span style="font-size: 22px;">⊞</span>
+                <span style="font-size: 18px;">🔍</span>
+                <div class="active-icon-container">
+                    <div class="active-app-indicator">✉</div>
+                    <div class="notif-badge">1</div>
+                </div>
+            </div>
+            <div class="taskbar-right">
+                <div id="time">21.15</div>
+                <div id="date">15/06/2025</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const msg = `Hi Biass ayuning sapitri,
+
+Happy Birthday!
+
+Selamat ulang tahun yaa 🤍 Semoga di hari spesial ini, semua doa baik dan harapan indah datang ke hidupmu. Aku harap kamu selalu dikelilingi kebahagiaan, kesehatan, dan orang-orang yang tulus sayang sama kamu.
+
+Aku juga percaya, di usia yang baru ini banyak pintu baru yang akan terbuka buatmu entah itu kesempatan, pengalaman, atau hal-hal kecil yang bikin hidupmu semakin berwarna.
+
+Terima kasih sudah jadi pribadi yang baik dan selalu bisa bikin sekitarmu merasa nyaman. Jujur, aku juga bersyukur bisa kenal sama kamu. 
+
+Semoga kamu selalu ingat kalau kamu itu orang yang spesial, berharga, dan pantas buat semua hal-hal indah yang ada di dunia ini. Makin sukses, dan makin cantik!
+
+Happy Birthday again, Biass! 🎂✨`;
+
+        let i = 0;
+        let isTyping = true;
+        let timer;
+
+        function startTyping() {
+            const el = document.getElementById('typewriter');
+            timer = setInterval(() => {
+                if (i < msg.length) {
+                    el.innerHTML += msg.charAt(i);
+                    i++;
+                    const body = document.querySelector('.content-body');
+                    body.scrollTop = body.scrollHeight;
+                } else {
+                    clearInterval(timer);
+                    isTyping = false;
+                }
+            }, 40);
+        }
+
+        function skipTypewriter() {
+            if (isTyping) {
+                clearInterval(timer);
+                document.getElementById('typewriter').innerHTML = msg;
+                isTyping = false;
+                const body = document.querySelector('.content-body');
+                body.scrollTop = body.scrollHeight;
+            }
+        }
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('time').textContent = now.getHours().toString().padStart(2,'0') + "." + now.getMinutes().toString().padStart(2,'0');
+            document.getElementById('date').textContent = now.getDate().toString().padStart(2,'0') + "/" + (now.getMonth()+1).toString().padStart(2,'0') + "/" + now.getFullYear();
+        }
+
+        window.onload = () => {
+            updateClock();
+            setInterval(updateClock, 1000);
+            startTyping();
+        };
+    </script>
+</body>
+</html>
