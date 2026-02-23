@@ -212,130 +212,130 @@
     </div>
 
     <script>
-        // Daftar file: sesuaikan ekstensi .mp4 jika ada video
-        const photos = [
-            "asset/gallery/1.jfif",
-            "asset/gallery/2.jfif",
-            "asset/gallery/3.jfif", // Contoh file video
-            "asset/gallery/4.jfif",
-            "asset/gallery/5.jfif",
-            "asset/gallery/6.jfif",
-            "asset/gallery/7.jfif",
-            "asset/gallery/8.jfif",
-            "asset/gallery/9.jfif",
-            "asset/gallery/10.mp4" // Contoh file video
-        ];
+     // --- LOGIKA GALLERY ---
+const photos = [
+    "asset/gallery/1.jfif",
+    "asset/gallery/2.jfif",
+    "asset/gallery/3.jfif",
+    "asset/gallery/4.jfif",
+    "asset/gallery/5.jfif",
+    "asset/gallery/6.jfif",
+    "asset/gallery/7.jfif",
+    "asset/gallery/8.jfif",
+    "asset/gallery/9.jfif",
+    "asset/gallery/10.mp4"
+];
 
-        let currentIndex = 0;
-        document.getElementById('total-idx').textContent = photos.length;
+let currentIndex = 0;
+document.getElementById('total-idx').textContent = photos.length;
 
-        function updateGallery() {
-            const imgEl = document.getElementById('display-img');
-            const videoEl = document.getElementById('display-video');
-            const currentPath = photos[currentIndex];
-            
-            // Logika Deteksi Video
-            if (currentPath.toLowerCase().endsWith('.mp4')) {
-                imgEl.style.display = 'none';
-                videoEl.style.display = 'block';
-                videoEl.src = currentPath;
-                videoEl.play();
-            } else {
-                imgEl.style.display = 'block';
-                videoEl.style.display = 'none';
-                videoEl.pause();
-                imgEl.src = currentPath;
-            }
+function updateGallery() {
+    const imgEl = document.getElementById('display-img');
+    const videoEl = document.getElementById('display-video');
+    const currentPath = photos[currentIndex];
+    
+    if (currentPath.toLowerCase().endsWith('.mp4')) {
+        imgEl.style.display = 'none';
+        videoEl.style.display = 'block';
+        videoEl.src = currentPath;
+        videoEl.play();
+    } else {
+        imgEl.style.display = 'block';
+        videoEl.style.display = 'none';
+        videoEl.pause();
+        imgEl.src = currentPath;
+    }
 
-            document.getElementById('current-idx').textContent = currentIndex + 1;
-            
-            // Update Visual Thumbnail & Auto-Scroll
-            const thumbs = document.querySelectorAll('.thumb');
-            thumbs.forEach((t, i) => {
-                if(i === currentIndex) {
-                    t.classList.add('active');
-                    t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                } else {
-                    t.classList.remove('active');
-                }
-            });
-        }
-
-        function changeImage(dir) {
-            currentIndex += dir;
-            if (currentIndex < 0) currentIndex = photos.length - 1;
-            if (currentIndex >= photos.length) currentIndex = 0;
-            updateGallery();
-        }
-
-        function setImg(index) {
-            currentIndex = index;
-            updateGallery();
-        }
-
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('time').textContent = now.getHours().toString().padStart(2,'0') + "." + now.getMinutes().toString().padStart(2,'0');
-            document.getElementById('date').textContent = now.getDate().toString().padStart(2,'0') + "/" + (now.getMonth()+1).toString().padStart(2,'0') + "/" + now.getFullYear();
-        }
-
-        window.onload = () => {
-            updateGallery();
-            setInterval(updateClock, 1000);
-            updateClock();
-        };
-
-        const audio = document.getElementById('bgm');
-
-    // 1. Cek memori browser pas halaman kebuka
-    window.addEventListener('load', () => {
-        const savedTime = localStorage.getItem('audioTime');
-        const isPlaying = localStorage.getItem('audioIsPlaying');
-
-        if (savedTime) {
-            audio.currentTime = parseFloat(savedTime);
-        }
-
-        // Browser butuh interaksi user (klik apa aja) buat mulai putar
-        if (isPlaying === 'true') {
-            audio.play().catch(() => {
-                console.log("Menunggu interaksi user untuk lanjut musik...");
-            });
+    document.getElementById('current-idx').textContent = currentIndex + 1;
+    
+    const thumbs = document.querySelectorAll('.thumb');
+    thumbs.forEach((t, i) => {
+        if(i === currentIndex) {
+            t.classList.add('active');
+            t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+            t.classList.remove('active');
         }
     });
+}
 
-    // 2. Simpan posisi musik tiap 100 milidetik (biar akurat banget)
-    setInterval(() => {
-        if (!audio.paused) {
-            localStorage.setItem('audioTime', audio.currentTime);
-            localStorage.setItem('audioIsPlaying', 'true');
-        }
-    }, 100);
+function changeImage(dir) {
+    currentIndex += dir;
+    if (currentIndex < 0) currentIndex = photos.length - 1;
+    if (currentIndex >= photos.length) currentIndex = 0;
+    updateGallery();
+}
 
-    // 3. Trigger pertama kali (biar musik jalan di halaman pertama)
-    document.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play();
-            localStorage.setItem('audioIsPlaying', 'true');
-        }
-    }, { once: true });
+function setImg(index) {
+    currentIndex = index;
+    updateGallery();
+}
 
-         var audio = document.getElementById('myAudio');
-          var isPlaying = false;
-        
-          function toggleMusic() {
-            if (isPlaying) {
-              audio.pause();
-              document.getElementById('musicBtn').innerText = "🔇";
-            } else {
-              audio.play();
-              document.getElementById('musicBtn').innerText = "🎵";
-            }
-            isPlaying = !isPlaying;
-          }
+// --- LOGIKA JAM ---
+function updateClock() {
+    const now = new Date();
+    document.getElementById('time').textContent = now.getHours().toString().padStart(2,'0') + "." + now.getMinutes().toString().padStart(2,'0');
+    document.getElementById('date').textContent = now.getDate().toString().padStart(2,'0') + "/" + (now.getMonth()+1).toString().padStart(2,'0') + "/" + now.getFullYear();
+}
+
+// --- LOGIKA MUSIK (SEAMLESS) ---
+const audio = document.getElementById('bgm');
+const musicBtn = document.getElementById('musicBtn');
+
+window.onload = () => {
+    updateGallery();
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Load music state
+    const savedTime = localStorage.getItem('audioTime');
+    const isPlaying = localStorage.getItem('audioIsPlaying');
+
+    if (savedTime) {
+        audio.currentTime = parseFloat(savedTime);
+    }
+
+    if (isPlaying === 'true') {
+        audio.play().then(() => {
+            musicBtn.innerText = "🎵";
+        }).catch(() => {
+            musicBtn.innerText = "🔇";
+        });
+    }
+};
+
+setInterval(() => {
+    if (!audio.paused) {
+        localStorage.setItem('audioTime', audio.currentTime);
+        localStorage.setItem('audioIsPlaying', 'true');
+    } else {
+        localStorage.setItem('audioIsPlaying', 'false');
+    }
+}, 100);
+
+document.addEventListener('click', () => {
+    // Hanya auto-play jika di halaman sebelumnya memang sedang nyala
+    if (audio.paused && localStorage.getItem('audioIsPlaying') === 'true') {
+        audio.play();
+        musicBtn.innerText = "🎵";
+    }
+}, { once: true });
+
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play();
+        musicBtn.innerText = "🎵";
+        localStorage.setItem('audioIsPlaying', 'true');
+    } else {
+        audio.pause();
+        musicBtn.innerText = "🔇";
+        localStorage.setItem('audioIsPlaying', 'false');
+    }
+}
     </script>
 </body>
 
 </html>
+
 
 
