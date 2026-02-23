@@ -184,6 +184,7 @@
             <div class="taskbar-left" style="display:flex; align-items:center; gap:15px;">
                 <span style="font-size: 22px;">⊞</span>
                 <span style="font-size: 18px;">🔍</span>
+                <div class="music-control" onclick="toggleMusic()" id="musicBtn">🎵</div>
                 <div class="active-app-indicator">🖼</div>
             </div>
             <div class="taskbar-right">
@@ -301,7 +302,22 @@
             localStorage.setItem('audioIsPlaying', 'true');
         }
     }, { once: true });
+
+         var audio = document.getElementById('myAudio');
+          var isPlaying = false;
+        
+          function toggleMusic() {
+            if (isPlaying) {
+              audio.pause();
+              document.getElementById('musicBtn').innerText = "🔇";
+            } else {
+              audio.play();
+              document.getElementById('musicBtn').innerText = "🎵";
+            }
+            isPlaying = !isPlaying;
+          }
     </script>
 </body>
 
 </html>
+
