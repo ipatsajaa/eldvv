@@ -90,11 +90,6 @@
         }
         .thumb.active { border-color: #0078d4; }
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .thumb.is-video::after {
-            content: '▶'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: white; background: rgba(0,0,0,0.6); width: 24px; height: 24px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; font-size: 10px; border: 1px solid white;
-        }
 
         .desktop-taskbar {
             position: absolute; bottom: 0; width: 100%; height: 50px;
@@ -102,43 +97,51 @@
             display: flex; justify-content: space-between; align-items: center;
             padding: 0 15px; color: white;
         }
-        .taskbar-right { text-align: right; font-size: 11px; }
 
-        /* --- STYLES POP-UP MUSIK BISA DIGESER --- */
+        /* --- STYLES TOMBOL BULAT DRAGGABLE --- */
         .music-control-fab {
-            position: fixed; bottom: 70px; right: 20px;
-            background: rgba(0, 120, 215, 0.9); color: white;
-            width: 50px; height: 50px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; z-index: 1000; font-size: 22px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid white;
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            background: rgba(0, 120, 215, 0.9);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            z-index: 2000;
+            font-size: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 2px solid white;
+            touch-action: none; /* Cegah scroll saat geser di HP */
         }
+        .music-control-fab:active { cursor: grabbing; }
 
         .music-popup {
             position: fixed;
-            top: 20%; left: 50%; transform: translateX(-50%); /* Posisi awal tengah */
-            width: 170px; background: #c0c0c0;
-            border: 2px solid; border-color: #ffffff #808080 #808080 #ffffff;
-            padding: 3px; display: none; flex-direction: column;
-            z-index: 1001; box-shadow: 2px 2px 15px rgba(0,0,0,0.5);
-            touch-action: none; /* Penting untuk drag di HP */
+            width: 150px;
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            padding: 3px;
+            display: none;
+            flex-direction: column;
+            z-index: 1999;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
 
         .popup-header {
-            background: #000080; color: white; font-size: 11px;
-            padding: 4px 6px; display: flex; justify-content: space-between;
-            align-items: center; cursor: move; /* Kursor berubah saat di header */
+            background: #000080; color: white; font-size: 10px;
+            padding: 2px 6px; display: flex; justify-content: space-between;
         }
-
-        .popup-body { padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-        .music-title { font-size: 11px; color: black; font-weight: bold; text-align: center; }
 
         .win98-btn {
             width: 100%; padding: 5px; font-size: 12px; background: #c0c0c0;
             border: 2px solid; border-color: #ffffff #808080 #808080 #ffffff; cursor: pointer;
         }
-        .win98-btn:active { border-color: #808080 #ffffff #ffffff #808080; }
-
     </style>
     <audio id="bgm" loop>
       <source src="music/ALLIWANT.mp3" type="audio/mpeg">
@@ -178,25 +181,21 @@
             </div>
         </div>
 
-        <div class="music-control-fab" onclick="togglePopup()" id="musicBtn">🎵</div>
+        <div class="music-control-fab" id="musicFab">🎵</div>
 
         <div class="music-popup" id="musicPopup">
-            <div class="popup-header" id="popupHeader">
+            <div class="popup-header">
                 <span>Media Player</span>
-                <span onclick="togglePopup()" style="cursor:pointer; padding-left: 10px;">×</span>
+                <span onclick="togglePopup()" style="cursor:pointer">×</span>
             </div>
-            <div class="popup-body">
-                <div class="music-title">ALL I WANT</div>
+            <div style="padding:10px; text-align:center;">
+                <div style="font-size:10px; color:black; margin-bottom:5px;">ALL I WANT</div>
                 <button class="win98-btn" onclick="toggleMusic()" id="playBtn">Pause</button>
             </div>
         </div>
 
         <div class="desktop-taskbar">
-            <div class="taskbar-left" style="display:flex; align-items:center; gap:15px;">
-                <span style="font-size: 22px;">⊞</span>
-                <span style="font-size: 18px;">🔍</span>
-                <div class="active-app-indicator">🖼</div>
-            </div>
+            <div class="taskbar-left"><span style="font-size: 22px;">⊞</span></div>
             <div class="taskbar-right">
                 <div id="time">00.00</div>
                 <div id="date">00/00/0000</div>
@@ -205,7 +204,7 @@
     </div>
 
     <script>
-    // --- GALLERY & CLOCK LOGIC (Sama seperti sebelumnya) ---
+    // --- GALLERY & CLOCK ---
     const photos = ["asset/gallery/1.jfif", "asset/gallery/2.jfif", "asset/gallery/3.jfif", "asset/gallery/4.jfif", "asset/gallery/5.jfif", "asset/gallery/6.jfif", "asset/gallery/7.jfif", "asset/gallery/8.jfif", "asset/gallery/9.jfif", "asset/gallery/10.mp4"];
     let currentIndex = 0;
     function updateGallery() {
@@ -218,8 +217,7 @@
             imgEl.style.display = 'block'; videoEl.style.display = 'none'; videoEl.pause(); imgEl.src = currentPath;
         }
         document.getElementById('current-idx').textContent = currentIndex + 1;
-        const thumbs = document.querySelectorAll('.thumb');
-        thumbs.forEach((t, i) => i === currentIndex ? t.classList.add('active') : t.classList.remove('active'));
+        document.querySelectorAll('.thumb').forEach((t, i) => i === currentIndex ? t.classList.add('active') : t.classList.remove('active'));
     }
     function changeImage(dir) { currentIndex = (currentIndex + dir + photos.length) % photos.length; updateGallery(); }
     function setImg(index) { currentIndex = index; updateGallery(); }
@@ -229,73 +227,89 @@
         document.getElementById('date').textContent = now.getDate().toString().padStart(2,'0') + "/" + (now.getMonth()+1).toString().padStart(2,'0') + "/" + now.getFullYear();
     }
 
-    // --- LOGIKA DRAG (GESER) ---
+    // --- LOGIKA GESER TOMBOL BULAT (DRAGGABLE FAB) ---
+    const fab = document.getElementById("musicFab");
     const popup = document.getElementById("musicPopup");
-    const header = document.getElementById("popupHeader");
-    let isDragging = false, offset = [0,0];
+    let isDragging = false;
+    let startX, startY, moved = false;
 
-    header.addEventListener("mousedown", (e) => {
+    // Fungsi mulai seret
+    const dragStart = (e) => {
         isDragging = true;
-        offset = [popup.offsetLeft - e.clientX, popup.offsetTop - e.clientY];
-    });
+        moved = false;
+        const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+        startX = clientX - fab.offsetLeft;
+        startY = clientY - fab.offsetTop;
+    };
 
-    document.addEventListener("mousemove", (e) => {
+    // Fungsi sedang seret
+    const dragMove = (e) => {
         if (!isDragging) return;
-        popup.style.left = (e.clientX + offset[0]) + "px";
-        popup.style.top = (e.clientY + offset[1]) + "px";
-        popup.style.transform = "none"; // Menghapus centering saat digeser
+        moved = true; // Menandai bahwa tombol digeser, bukan diklik
+        const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+        
+        let newX = clientX - startX;
+        let newY = clientY - startY;
+
+        fab.style.left = newX + "px";
+        fab.style.top = newY + "px";
+        fab.style.bottom = "auto"; 
+        fab.style.right = "auto";
+        
+        // Ikutkan posisi popup
+        popup.style.left = newX - 100 + "px"; 
+        popup.style.top = newY - 80 + "px";
+    };
+
+    // Fungsi selesai seret
+    const dragEnd = () => {
+        isDragging = false;
+    };
+
+    // Klik tombol (hanya jika tidak digeser)
+    fab.addEventListener("click", () => {
+        if (!moved) togglePopup();
     });
 
-    document.addEventListener("mouseup", () => isDragging = false);
+    fab.addEventListener("mousedown", dragStart);
+    document.addEventListener("mousemove", dragMove);
+    document.addEventListener("mouseup", dragEnd);
 
-    // Support Touch (HP)
-    header.addEventListener("touchstart", (e) => {
-        isDragging = true;
-        const touch = e.touches[0];
-        offset = [popup.offsetLeft - touch.clientX, popup.offsetTop - touch.clientY];
-    });
-    document.addEventListener("touchmove", (e) => {
-        if (!isDragging) return;
-        const touch = e.touches[0];
-        popup.style.left = (touch.clientX + offset[0]) + "px";
-        popup.style.top = (touch.clientY + offset[1]) + "px";
-        popup.style.transform = "none";
-    });
-    document.addEventListener("touchend", () => isDragging = false);
+    fab.addEventListener("touchstart", dragStart);
+    document.addEventListener("touchmove", dragMove);
+    document.addEventListener("touchend", dragEnd);
 
-    // --- MUSIK & POPUP LOGIC ---
+    // --- MUSIK LOGIC ---
     const audio = document.getElementById('bgm');
     const playBtn = document.getElementById('playBtn');
-    const musicBtn = document.getElementById('musicBtn');
 
     function togglePopup() {
         popup.style.display = (popup.style.display === 'flex') ? 'none' : 'flex';
+        // Posisikan popup di atas tombol
+        popup.style.left = fab.offsetLeft - 100 + "px";
+        popup.style.top = fab.offsetTop - 80 + "px";
     }
 
     function toggleMusic() {
         if (audio.paused) {
-            audio.play(); playBtn.innerText = "Pause"; musicBtn.innerText = "🎵"; localStorage.setItem('audioIsPlaying', 'true');
+            audio.play(); playBtn.innerText = "Pause"; fab.innerText = "🎵"; localStorage.setItem('audioIsPlaying', 'true');
         } else {
-            audio.pause(); playBtn.innerText = "Play"; musicBtn.innerText = "🔇"; localStorage.setItem('audioIsPlaying', 'false');
+            audio.pause(); playBtn.innerText = "Play"; fab.innerText = "🔇"; localStorage.setItem('audioIsPlaying', 'false');
         }
     }
 
     window.onload = () => {
         updateGallery(); updateClock(); setInterval(updateClock, 1000);
         const savedTime = localStorage.getItem('audioTime');
-        const isPlaying = localStorage.getItem('audioIsPlaying');
         if (savedTime) audio.currentTime = parseFloat(savedTime);
-        if (isPlaying === 'true') {
-            audio.play().then(() => { musicBtn.innerText = "🎵"; playBtn.innerText = "Pause"; }).catch(() => {});
+        if (localStorage.getItem('audioIsPlaying') === 'true') {
+            audio.play().then(() => { fab.innerText = "🎵"; playBtn.innerText = "Pause"; }).catch(() => {});
         }
     };
 
-    setInterval(() => {
-        if (!audio.paused) {
-            localStorage.setItem('audioTime', audio.currentTime);
-            localStorage.setItem('audioIsPlaying', 'true');
-        }
-    }, 500);
+    setInterval(() => { if (!audio.paused) localStorage.setItem('audioTime', audio.currentTime); }, 500);
     </script>
 </body>
 </html>
