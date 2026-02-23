@@ -20,7 +20,7 @@
             position: relative;
         }
 
-        /* Window Style (Gambar #6) */
+        /* Window Style */
         .window {
             width: 92%; max-width: 380px;
             background: #ffffff; border-radius: 8px 8px 0 0;
@@ -32,7 +32,6 @@
 
         @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* Title Bar */
         .title-bar {
             background: #ffffff; padding: 6px 12px;
             display: flex; justify-content: space-between; align-items: center;
@@ -43,19 +42,16 @@
         .title-controls { display: flex; gap: 12px; font-size: 14px; color: #666; }
         .close-btn:hover { color: red; cursor: pointer; }
 
-        /* Header Biru */
         .window-header {
             background: #0078d4; color: white; padding: 10px 15px;
             font-weight: 500; font-size: 14px;
         }
 
-        /* Area Gallery */
         .gallery-content {
             background: #001e36; padding: 10px;
             height: 480px; display: flex; flex-direction: column; gap: 10px;
         }
 
-        /* Main Image/Video Viewer */
         .main-viewer {
             position: relative;
             flex: 1;
@@ -83,141 +79,69 @@
             padding: 2px 8px; border-radius: 10px; z-index: 5;
         }
 
-        /* Thumbnail Bar (Bisa Digeser) */
         .thumbnail-bar {
-            display: flex;
-            gap: 10px;
-            background: #002a4d;
-            padding: 10px;
-            border-radius: 4px;
-            overflow-x: auto;
-            white-space: nowrap;
-            scrollbar-width: thin;
-            scrollbar-color: #0078d4 #001e36;
+            display: flex; gap: 10px; background: #002a4d; padding: 10px;
+            border-radius: 4px; overflow-x: auto; white-space: nowrap;
         }
-
-        /* Custom scrollbar */
-        .thumbnail-bar::-webkit-scrollbar { height: 6px; }
-        .thumbnail-bar::-webkit-scrollbar-thumb { background: #0078d4; border-radius: 10px; }
 
         .thumb {
-            position: relative;
-            flex: 0 0 70px;
-            height: 70px;
-            background: #333;
-            border-radius: 4px;
-            cursor: pointer;
-            overflow: hidden;
-            border: 2px solid transparent;
-            transition: 0.2s;
+            position: relative; flex: 0 0 70px; height: 70px; background: #333;
+            border-radius: 4px; cursor: pointer; overflow: hidden; border: 2px solid transparent;
         }
-
         .thumb.active { border-color: #0078d4; }
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Ikon Video di Thumbnail */
         .thumb.is-video::after {
-            content: '▶';
-            position: absolute;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: white; background: rgba(0,0,0,0.6);
-            width: 24px; height: 24px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 10px; border: 1px solid white;
+            content: '▶'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: white; background: rgba(0,0,0,0.6); width: 24px; height: 24px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 10px; border: 1px solid white;
         }
 
-        /* Taskbar Bawah */
         .desktop-taskbar {
             position: absolute; bottom: 0; width: 100%; height: 50px;
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
             display: flex; justify-content: space-between; align-items: center;
             padding: 0 15px; color: white;
         }
-        .active-app-indicator { border-bottom: 3px solid #0078d4; padding-bottom: 3px; font-size: 20px; }
         .taskbar-right { text-align: right; font-size: 11px; }
 
-        /* --- STYLES POP-UP MUSIK MELAYANG --- */
-        .music-control {
-            position: fixed;
-            bottom: 70px; /* Di atas taskbar */
-            right: 20px;
-            background: rgba(0, 120, 215, 0.9);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 1000;
-            font-size: 22px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 2px solid white;
-            transition: 0.3s;
+        /* --- STYLES POP-UP MUSIK BISA DIGESER --- */
+        .music-control-fab {
+            position: fixed; bottom: 70px; right: 20px;
+            background: rgba(0, 120, 215, 0.9); color: white;
+            width: 50px; height: 50px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; z-index: 1000; font-size: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid white;
         }
 
         .music-popup {
             position: fixed;
-            bottom: 130px; /* Muncul di atas tombol bulat */
-            right: 20px;
-            width: 160px;
-            background: #c0c0c0;
-            border: 2px solid;
-            border-color: #ffffff #808080 #808080 #ffffff;
-            padding: 3px;
-            display: none; /* Sembunyi secara default */
-            flex-direction: column;
-            z-index: 1001;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-            animation: slideUp 0.3s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(10px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            top: 20%; left: 50%; transform: translateX(-50%); /* Posisi awal tengah */
+            width: 170px; background: #c0c0c0;
+            border: 2px solid; border-color: #ffffff #808080 #808080 #ffffff;
+            padding: 3px; display: none; flex-direction: column;
+            z-index: 1001; box-shadow: 2px 2px 15px rgba(0,0,0,0.5);
+            touch-action: none; /* Penting untuk drag di HP */
         }
 
         .popup-header {
-            background: #000080;
-            color: white;
-            font-size: 11px;
-            padding: 2px 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #000080; color: white; font-size: 11px;
+            padding: 4px 6px; display: flex; justify-content: space-between;
+            align-items: center; cursor: move; /* Kursor berubah saat di header */
         }
 
-        .popup-body {
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .music-title {
-            font-size: 11px;
-            color: black;
-            font-weight: bold;
-            text-align: center;
-        }
+        .popup-body { padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .music-title { font-size: 11px; color: black; font-weight: bold; text-align: center; }
 
         .win98-btn {
-            width: 100%;
-            padding: 4px;
-            font-size: 12px;
-            background: #c0c0c0;
-            border: 2px solid;
-            border-color: #ffffff #808080 #808080 #ffffff;
-            cursor: pointer;
+            width: 100%; padding: 5px; font-size: 12px; background: #c0c0c0;
+            border: 2px solid; border-color: #ffffff #808080 #808080 #ffffff; cursor: pointer;
         }
         .win98-btn:active { border-color: #808080 #ffffff #ffffff #808080; }
 
     </style>
     <audio id="bgm" loop>
       <source src="music/ALLIWANT.mp3" type="audio/mpeg">
-      Browser kamu tidak mendukung tag audio.
     </audio>
 </head>
 <body>
@@ -230,20 +154,15 @@
                     <span>—</span> <span>❐</span> <span class="close-btn" onclick="location.href='desktop.html'">×</span>
                 </div>
             </div>
-
             <div class="window-header">Photo Gallery</div>
-
             <div class="gallery-content">
                 <div class="main-viewer">
                     <button class="nav-btn prev" onclick="changeImage(-1)">❮</button>
-                    
                     <img id="display-img" src="" alt="Gallery">
                     <video id="display-video" controls style="display:none;"></video>
-                    
                     <button class="nav-btn next" onclick="changeImage(1)">❯</button>
-                    <div class="img-counter"><span id="current-idx">1</span> / <span id="total-idx">9</span></div>
+                    <div class="img-counter"><span id="current-idx">1</span> / <span id="total-idx">10</span></div>
                 </div>
-
                 <div class="thumbnail-bar" id="thumb-bar">
                     <div class="thumb active" onclick="setImg(0)"><img src="asset/gallery/1.jfif"></div>
                     <div class="thumb" onclick="setImg(1)"><img src="asset/gallery/2.jfif"></div>
@@ -259,12 +178,12 @@
             </div>
         </div>
 
-        <div class="music-control" onclick="togglePopup()" id="musicBtn">🎵</div>
+        <div class="music-control-fab" onclick="togglePopup()" id="musicBtn">🎵</div>
 
         <div class="music-popup" id="musicPopup">
-            <div class="popup-header">
+            <div class="popup-header" id="popupHeader">
                 <span>Media Player</span>
-                <span onclick="togglePopup()" style="cursor:pointer">×</span>
+                <span onclick="togglePopup()" style="cursor:pointer; padding-left: 10px;">×</span>
             </div>
             <div class="popup-body">
                 <div class="music-title">ALL I WANT</div>
@@ -286,120 +205,88 @@
     </div>
 
     <script>
-    // --- LOGIKA GALLERY ---
-    const photos = [
-        "asset/gallery/1.jfif",
-        "asset/gallery/2.jfif",
-        "asset/gallery/3.jfif",
-        "asset/gallery/4.jfif",
-        "asset/gallery/5.jfif",
-        "asset/gallery/6.jfif",
-        "asset/gallery/7.jfif",
-        "asset/gallery/8.jfif",
-        "asset/gallery/9.jfif",
-        "asset/gallery/10.mp4"
-    ];
-
+    // --- GALLERY & CLOCK LOGIC (Sama seperti sebelumnya) ---
+    const photos = ["asset/gallery/1.jfif", "asset/gallery/2.jfif", "asset/gallery/3.jfif", "asset/gallery/4.jfif", "asset/gallery/5.jfif", "asset/gallery/6.jfif", "asset/gallery/7.jfif", "asset/gallery/8.jfif", "asset/gallery/9.jfif", "asset/gallery/10.mp4"];
     let currentIndex = 0;
-    document.getElementById('total-idx').textContent = photos.length;
-
     function updateGallery() {
         const imgEl = document.getElementById('display-img');
         const videoEl = document.getElementById('display-video');
         const currentPath = photos[currentIndex];
-        
         if (currentPath.toLowerCase().endsWith('.mp4')) {
-            imgEl.style.display = 'none';
-            videoEl.style.display = 'block';
-            videoEl.src = currentPath;
-            videoEl.play();
+            imgEl.style.display = 'none'; videoEl.style.display = 'block'; videoEl.src = currentPath; videoEl.play();
         } else {
-            imgEl.style.display = 'block';
-            videoEl.style.display = 'none';
-            videoEl.pause();
-            imgEl.src = currentPath;
+            imgEl.style.display = 'block'; videoEl.style.display = 'none'; videoEl.pause(); imgEl.src = currentPath;
         }
-
         document.getElementById('current-idx').textContent = currentIndex + 1;
-        
         const thumbs = document.querySelectorAll('.thumb');
-        thumbs.forEach((t, i) => {
-            if(i === currentIndex) {
-                t.classList.add('active');
-                t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            } else {
-                t.classList.remove('active');
-            }
-        });
+        thumbs.forEach((t, i) => i === currentIndex ? t.classList.add('active') : t.classList.remove('active'));
     }
-
-    function changeImage(dir) {
-        currentIndex += dir;
-        if (currentIndex < 0) currentIndex = photos.length - 1;
-        if (currentIndex >= photos.length) currentIndex = 0;
-        updateGallery();
-    }
-
-    function setImg(index) {
-        currentIndex = index;
-        updateGallery();
-    }
-
-    // --- LOGIKA JAM ---
+    function changeImage(dir) { currentIndex = (currentIndex + dir + photos.length) % photos.length; updateGallery(); }
+    function setImg(index) { currentIndex = index; updateGallery(); }
     function updateClock() {
         const now = new Date();
         document.getElementById('time').textContent = now.getHours().toString().padStart(2,'0') + "." + now.getMinutes().toString().padStart(2,'0');
         document.getElementById('date').textContent = now.getDate().toString().padStart(2,'0') + "/" + (now.getMonth()+1).toString().padStart(2,'0') + "/" + now.getFullYear();
     }
 
-    // --- LOGIKA POP-UP MUSIK MELAYANG ---
+    // --- LOGIKA DRAG (GESER) ---
+    const popup = document.getElementById("musicPopup");
+    const header = document.getElementById("popupHeader");
+    let isDragging = false, offset = [0,0];
+
+    header.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offset = [popup.offsetLeft - e.clientX, popup.offsetTop - e.clientY];
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        popup.style.left = (e.clientX + offset[0]) + "px";
+        popup.style.top = (e.clientY + offset[1]) + "px";
+        popup.style.transform = "none"; // Menghapus centering saat digeser
+    });
+
+    document.addEventListener("mouseup", () => isDragging = false);
+
+    // Support Touch (HP)
+    header.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        const touch = e.touches[0];
+        offset = [popup.offsetLeft - touch.clientX, popup.offsetTop - touch.clientY];
+    });
+    document.addEventListener("touchmove", (e) => {
+        if (!isDragging) return;
+        const touch = e.touches[0];
+        popup.style.left = (touch.clientX + offset[0]) + "px";
+        popup.style.top = (touch.clientY + offset[1]) + "px";
+        popup.style.transform = "none";
+    });
+    document.addEventListener("touchend", () => isDragging = false);
+
+    // --- MUSIK & POPUP LOGIC ---
     const audio = document.getElementById('bgm');
-    const musicPopup = document.getElementById('musicPopup');
     const playBtn = document.getElementById('playBtn');
     const musicBtn = document.getElementById('musicBtn');
 
     function togglePopup() {
-        if (musicPopup.style.display === 'flex') {
-            musicPopup.style.display = 'none';
-        } else {
-            musicPopup.style.display = 'flex';
-        }
+        popup.style.display = (popup.style.display === 'flex') ? 'none' : 'flex';
     }
 
     function toggleMusic() {
         if (audio.paused) {
-            audio.play();
-            playBtn.innerText = "Pause";
-            musicBtn.innerText = "🎵";
-            localStorage.setItem('audioIsPlaying', 'true');
+            audio.play(); playBtn.innerText = "Pause"; musicBtn.innerText = "🎵"; localStorage.setItem('audioIsPlaying', 'true');
         } else {
-            audio.pause();
-            playBtn.innerText = "Play";
-            musicBtn.innerText = "🔇";
-            localStorage.setItem('audioIsPlaying', 'false');
+            audio.pause(); playBtn.innerText = "Play"; musicBtn.innerText = "🔇"; localStorage.setItem('audioIsPlaying', 'false');
         }
     }
 
     window.onload = () => {
-        updateGallery();
-        updateClock();
-        setInterval(updateClock, 1000);
-
+        updateGallery(); updateClock(); setInterval(updateClock, 1000);
         const savedTime = localStorage.getItem('audioTime');
         const isPlaying = localStorage.getItem('audioIsPlaying');
-
-        if (savedTime) {
-            audio.currentTime = parseFloat(savedTime);
-        }
-
+        if (savedTime) audio.currentTime = parseFloat(savedTime);
         if (isPlaying === 'true') {
-            audio.play().then(() => {
-                musicBtn.innerText = "🎵";
-                playBtn.innerText = "Pause";
-            }).catch(() => {
-                musicBtn.innerText = "🔇";
-                playBtn.innerText = "Play";
-            });
+            audio.play().then(() => { musicBtn.innerText = "🎵"; playBtn.innerText = "Pause"; }).catch(() => {});
         }
     };
 
@@ -407,18 +294,8 @@
         if (!audio.paused) {
             localStorage.setItem('audioTime', audio.currentTime);
             localStorage.setItem('audioIsPlaying', 'true');
-        } else {
-            localStorage.setItem('audioIsPlaying', 'false');
         }
-    }, 100);
-
-    document.addEventListener('click', () => {
-        if (audio.paused && localStorage.getItem('audioIsPlaying') === 'true') {
-            audio.play();
-            musicBtn.innerText = "🎵";
-            playBtn.innerText = "Pause";
-        }
-    }, { once: true });
+    }, 500);
     </script>
 </body>
 </html>
