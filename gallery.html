@@ -135,6 +135,23 @@
         }
         .active-app-indicator { border-bottom: 3px solid #0078d4; padding-bottom: 3px; font-size: 20px; }
         .taskbar-right { text-align: right; font-size: 11px; }
+
+         .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 120, 215, 0.8);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 20px;
+        }
     </style>
     <audio id="bgm" loop>
       <source src="music/ALLIWANT.mp3" type="audio/mpeg">
@@ -320,4 +337,5 @@
 </body>
 
 </html>
+
 
