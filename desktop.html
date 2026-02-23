@@ -110,12 +110,13 @@
             font-size: 20px;
         }
     </style>
-</head>
-<body>
-    <audio id="myAudio" loop>
+    <audio id="bgm" loop>
       <source src="music/ALLIWANT.mp3" type="audio/mpeg">
       Browser kamu tidak mendukung tag audio.
     </audio>
+</head>
+<body>
+    
     <div class="desktop-screen">
         <div class="desktop-status-bar">
             <span>Operator</span>
@@ -190,10 +191,40 @@
         setInterval(updateClock, 1000);
         updateClock();
         
-        document.addEventListener('click', function() {
-        var audio = document.getElementById('myAudio');
-        audio.play();
-      }, { once: true });
+      const audio = document.getElementById('bgm');
+
+    // 1. Cek memori browser pas halaman kebuka
+    window.addEventListener('load', () => {
+        const savedTime = localStorage.getItem('audioTime');
+        const isPlaying = localStorage.getItem('audioIsPlaying');
+
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+
+        // Browser butuh interaksi user (klik apa aja) buat mulai putar
+        if (isPlaying === 'true') {
+            audio.play().catch(() => {
+                console.log("Menunggu interaksi user untuk lanjut musik...");
+            });
+        }
+    });
+
+    // 2. Simpan posisi musik tiap 100 milidetik (biar akurat banget)
+    setInterval(() => {
+        if (!audio.paused) {
+            localStorage.setItem('audioTime', audio.currentTime);
+            localStorage.setItem('audioIsPlaying', 'true');
+        }
+    }, 100);
+
+    // 3. Trigger pertama kali (biar musik jalan di halaman pertama)
+    document.addEventListener('click', () => {
+        if (audio.paused) {
+            audio.play();
+            localStorage.setItem('audioIsPlaying', 'true');
+        }
+    }, { once: true });
 
           var audio = document.getElementById('myAudio');
           var isPlaying = false;
@@ -212,6 +243,7 @@
 </body>
 
 </html>
+
 
 
 
