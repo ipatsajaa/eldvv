@@ -20,7 +20,7 @@
             position: relative;
         }
 
-        /* Window Style */
+        /* Window Style (Gambar #6) */
         .window {
             width: 92%; max-width: 380px;
             background: #ffffff; border-radius: 8px 8px 0 0;
@@ -32,6 +32,7 @@
 
         @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
+        /* Title Bar */
         .title-bar {
             background: #ffffff; padding: 6px 12px;
             display: flex; justify-content: space-between; align-items: center;
@@ -42,16 +43,19 @@
         .title-controls { display: flex; gap: 12px; font-size: 14px; color: #666; }
         .close-btn:hover { color: red; cursor: pointer; }
 
+        /* Header Biru */
         .window-header {
             background: #0078d4; color: white; padding: 10px 15px;
             font-weight: 500; font-size: 14px;
         }
 
+        /* Area Gallery */
         .gallery-content {
             background: #001e36; padding: 10px;
             height: 480px; display: flex; flex-direction: column; gap: 10px;
         }
 
+        /* Main Image/Video Viewer */
         .main-viewer {
             position: relative;
             flex: 1;
@@ -79,6 +83,7 @@
             padding: 2px 8px; border-radius: 10px; z-index: 5;
         }
 
+        /* Thumbnail Bar (Bisa Digeser) */
         .thumbnail-bar {
             display: flex;
             gap: 10px;
@@ -91,6 +96,7 @@
             scrollbar-color: #0078d4 #001e36;
         }
 
+        /* Custom scrollbar */
         .thumbnail-bar::-webkit-scrollbar { height: 6px; }
         .thumbnail-bar::-webkit-scrollbar-thumb { background: #0078d4; border-radius: 10px; }
 
@@ -109,6 +115,7 @@
         .thumb.active { border-color: #0078d4; }
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* Ikon Video di Thumbnail */
         .thumb.is-video::after {
             content: '▶';
             position: absolute;
@@ -125,36 +132,53 @@
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
             display: flex; justify-content: space-between; align-items: center;
             padding: 0 15px; color: white;
-            z-index: 100;
         }
         .active-app-indicator { border-bottom: 3px solid #0078d4; padding-bottom: 3px; font-size: 20px; }
         .taskbar-right { text-align: right; font-size: 11px; }
 
-        /* MUSIC POPUP STYLES */
+        /* --- STYLES POP-UP MUSIK MELAYANG --- */
         .music-control {
-            cursor: pointer;
+            position: fixed;
+            bottom: 70px; /* Di atas taskbar */
+            right: 20px;
+            background: rgba(0, 120, 215, 0.9);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 2px solid white;
+            transition: 0.3s;
         }
-        .music-control img { width: 25px; height: 25px; }
 
         .music-popup {
             position: fixed;
-            bottom: 60px;
-            left: 15px;
+            bottom: 130px; /* Muncul di atas tombol bulat */
+            right: 20px;
             width: 160px;
             background: #c0c0c0;
             border: 2px solid;
             border-color: #ffffff #808080 #808080 #ffffff;
             padding: 3px;
-            display: none; /* Hidden by default */
+            display: none; /* Sembunyi secara default */
             flex-direction: column;
-            z-index: 1000;
+            z-index: 1001;
             box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            animation: slideUp 0.3s ease-out;
         }
 
-        .music-popup-header {
+        @keyframes slideUp {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .popup-header {
             background: #000080;
             color: white;
             font-size: 11px;
@@ -162,38 +186,38 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
         }
 
-        .music-body {
+        .popup-body {
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 10px;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .music-info-text {
+        .music-title {
             font-size: 11px;
-            color: #000;
+            color: black;
             font-weight: bold;
             text-align: center;
         }
 
         .win98-btn {
-            padding: 4px 12px;
+            width: 100%;
+            padding: 4px;
             font-size: 12px;
             background: #c0c0c0;
             border: 2px solid;
             border-color: #ffffff #808080 #808080 #ffffff;
             cursor: pointer;
-            width: 100%;
         }
         .win98-btn:active { border-color: #808080 #ffffff #ffffff #808080; }
 
     </style>
     <audio id="bgm" loop>
       <source src="music/ALLIWANT.mp3" type="audio/mpeg">
+      Browser kamu tidak mendukung tag audio.
     </audio>
 </head>
 <body>
@@ -212,8 +236,10 @@
             <div class="gallery-content">
                 <div class="main-viewer">
                     <button class="nav-btn prev" onclick="changeImage(-1)">❮</button>
+                    
                     <img id="display-img" src="" alt="Gallery">
                     <video id="display-video" controls style="display:none;"></video>
+                    
                     <button class="nav-btn next" onclick="changeImage(1)">❯</button>
                     <div class="img-counter"><span id="current-idx">1</span> / <span id="total-idx">9</span></div>
                 </div>
@@ -233,14 +259,16 @@
             </div>
         </div>
 
+        <div class="music-control" onclick="togglePopup()" id="musicBtn">🎵</div>
+
         <div class="music-popup" id="musicPopup">
-            <div class="music-popup-header">
+            <div class="popup-header">
                 <span>Media Player</span>
-                <span style="cursor:pointer" onclick="togglePopup()">×</span>
+                <span onclick="togglePopup()" style="cursor:pointer">×</span>
             </div>
-            <div class="music-body">
-                <div class="music-info-text">ALL I WANT.mp3</div>
-                <button class="win98-btn" onclick="toggleMusic()" id="playPauseBtn">Mute Music</button>
+            <div class="popup-body">
+                <div class="music-title">ALL I WANT</div>
+                <button class="win98-btn" onclick="toggleMusic()" id="playBtn">Pause</button>
             </div>
         </div>
 
@@ -248,9 +276,6 @@
             <div class="taskbar-left" style="display:flex; align-items:center; gap:15px;">
                 <span style="font-size: 22px;">⊞</span>
                 <span style="font-size: 18px;">🔍</span>
-                <div class="music-control" onclick="togglePopup()">
-                    <img src="https://win98icons.alexmeub.com/icons/png/loudspeaker_rays_green-0.png" id="taskbarMusicIcon">
-                </div>
                 <div class="active-app-indicator">🖼</div>
             </div>
             <div class="taskbar-right">
@@ -261,131 +286,139 @@
     </div>
 
     <script>
-        // --- LOGIKA GALLERY ---
-        const photos = [
-            "asset/gallery/1.jfif", "asset/gallery/2.jfif", "asset/gallery/3.jfif",
-            "asset/gallery/4.jfif", "asset/gallery/5.jfif", "asset/gallery/6.jfif",
-            "asset/gallery/7.jfif", "asset/gallery/8.jfif", "asset/gallery/9.jfif",
-            "asset/gallery/10.mp4"
-        ];
+    // --- LOGIKA GALLERY ---
+    const photos = [
+        "asset/gallery/1.jfif",
+        "asset/gallery/2.jfif",
+        "asset/gallery/3.jfif",
+        "asset/gallery/4.jfif",
+        "asset/gallery/5.jfif",
+        "asset/gallery/6.jfif",
+        "asset/gallery/7.jfif",
+        "asset/gallery/8.jfif",
+        "asset/gallery/9.jfif",
+        "asset/gallery/10.mp4"
+    ];
 
-        let currentIndex = 0;
-        document.getElementById('total-idx').textContent = photos.length;
+    let currentIndex = 0;
+    document.getElementById('total-idx').textContent = photos.length;
 
-        function updateGallery() {
-            const imgEl = document.getElementById('display-img');
-            const videoEl = document.getElementById('display-video');
-            const currentPath = photos[currentIndex];
-            
-            if (currentPath.toLowerCase().endsWith('.mp4')) {
-                imgEl.style.display = 'none';
-                videoEl.style.display = 'block';
-                videoEl.src = currentPath;
-                videoEl.play();
+    function updateGallery() {
+        const imgEl = document.getElementById('display-img');
+        const videoEl = document.getElementById('display-video');
+        const currentPath = photos[currentIndex];
+        
+        if (currentPath.toLowerCase().endsWith('.mp4')) {
+            imgEl.style.display = 'none';
+            videoEl.style.display = 'block';
+            videoEl.src = currentPath;
+            videoEl.play();
+        } else {
+            imgEl.style.display = 'block';
+            videoEl.style.display = 'none';
+            videoEl.pause();
+            imgEl.src = currentPath;
+        }
+
+        document.getElementById('current-idx').textContent = currentIndex + 1;
+        
+        const thumbs = document.querySelectorAll('.thumb');
+        thumbs.forEach((t, i) => {
+            if(i === currentIndex) {
+                t.classList.add('active');
+                t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             } else {
-                imgEl.style.display = 'block';
-                videoEl.style.display = 'none';
-                videoEl.pause();
-                imgEl.src = currentPath;
+                t.classList.remove('active');
             }
+        });
+    }
 
-            document.getElementById('current-idx').textContent = currentIndex + 1;
-            
-            const thumbs = document.querySelectorAll('.thumb');
-            thumbs.forEach((t, i) => {
-                if(i === currentIndex) {
-                    t.classList.add('active');
-                    t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                } else {
-                    t.classList.remove('active');
-                }
+    function changeImage(dir) {
+        currentIndex += dir;
+        if (currentIndex < 0) currentIndex = photos.length - 1;
+        if (currentIndex >= photos.length) currentIndex = 0;
+        updateGallery();
+    }
+
+    function setImg(index) {
+        currentIndex = index;
+        updateGallery();
+    }
+
+    // --- LOGIKA JAM ---
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('time').textContent = now.getHours().toString().padStart(2,'0') + "." + now.getMinutes().toString().padStart(2,'0');
+        document.getElementById('date').textContent = now.getDate().toString().padStart(2,'0') + "/" + (now.getMonth()+1).toString().padStart(2,'0') + "/" + now.getFullYear();
+    }
+
+    // --- LOGIKA POP-UP MUSIK MELAYANG ---
+    const audio = document.getElementById('bgm');
+    const musicPopup = document.getElementById('musicPopup');
+    const playBtn = document.getElementById('playBtn');
+    const musicBtn = document.getElementById('musicBtn');
+
+    function togglePopup() {
+        if (musicPopup.style.display === 'flex') {
+            musicPopup.style.display = 'none';
+        } else {
+            musicPopup.style.display = 'flex';
+        }
+    }
+
+    function toggleMusic() {
+        if (audio.paused) {
+            audio.play();
+            playBtn.innerText = "Pause";
+            musicBtn.innerText = "🎵";
+            localStorage.setItem('audioIsPlaying', 'true');
+        } else {
+            audio.pause();
+            playBtn.innerText = "Play";
+            musicBtn.innerText = "🔇";
+            localStorage.setItem('audioIsPlaying', 'false');
+        }
+    }
+
+    window.onload = () => {
+        updateGallery();
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        const savedTime = localStorage.getItem('audioTime');
+        const isPlaying = localStorage.getItem('audioIsPlaying');
+
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+
+        if (isPlaying === 'true') {
+            audio.play().then(() => {
+                musicBtn.innerText = "🎵";
+                playBtn.innerText = "Pause";
+            }).catch(() => {
+                musicBtn.innerText = "🔇";
+                playBtn.innerText = "Play";
             });
         }
+    };
 
-        function changeImage(dir) {
-            currentIndex += dir;
-            if (currentIndex < 0) currentIndex = photos.length - 1;
-            if (currentIndex >= photos.length) currentIndex = 0;
-            updateGallery();
+    setInterval(() => {
+        if (!audio.paused) {
+            localStorage.setItem('audioTime', audio.currentTime);
+            localStorage.setItem('audioIsPlaying', 'true');
+        } else {
+            localStorage.setItem('audioIsPlaying', 'false');
         }
+    }, 100);
 
-        function setImg(index) {
-            currentIndex = index;
-            updateGallery();
+    document.addEventListener('click', () => {
+        if (audio.paused && localStorage.getItem('audioIsPlaying') === 'true') {
+            audio.play();
+            musicBtn.innerText = "🎵";
+            playBtn.innerText = "Pause";
         }
-
-        // --- LOGIKA JAM ---
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('time').textContent = now.getHours().toString().padStart(2,'0') + "." + now.getMinutes().toString().padStart(2,'0');
-            document.getElementById('date').textContent = now.getDate().toString().padStart(2,'0') + "/" + (now.getMonth()+1).toString().padStart(2,'0') + "/" + now.getFullYear();
-        }
-
-        // --- LOGIKA MUSIK & POPUP ---
-        const audio = document.getElementById('bgm');
-        const popup = document.getElementById('musicPopup');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const taskbarIcon = document.getElementById('taskbarMusicIcon');
-
-        const iconOn = "https://win98icons.alexmeub.com/icons/png/loudspeaker_rays_green-0.png";
-        const iconOff = "https://win98icons.alexmeub.com/icons/png/loudspeaker_muted-0.png";
-
-        function togglePopup() {
-            popup.style.display = (popup.style.display === "flex") ? "none" : "flex";
-        }
-
-        function updateMusicUI(playing) {
-            if (playing) {
-                taskbarIcon.src = iconOn;
-                playPauseBtn.innerText = "Mute Music";
-            } else {
-                taskbarIcon.src = iconOff;
-                playPauseBtn.innerText = "Unmute Music";
-            }
-        }
-
-        window.onload = () => {
-            updateGallery();
-            updateClock();
-            setInterval(updateClock, 1000);
-
-            const savedTime = localStorage.getItem('audioTime');
-            const isPlaying = localStorage.getItem('audioIsPlaying');
-
-            if (savedTime) audio.currentTime = parseFloat(savedTime);
-
-            if (isPlaying === 'true') {
-                audio.play().then(() => updateMusicUI(true)).catch(() => updateMusicUI(false));
-            } else {
-                updateMusicUI(false);
-            }
-        };
-
-        setInterval(() => {
-            if (!audio.paused) {
-                localStorage.setItem('audioTime', audio.currentTime);
-                localStorage.setItem('audioIsPlaying', 'true');
-            } else {
-                localStorage.setItem('audioIsPlaying', 'false');
-            }
-        }, 100);
-
-        document.addEventListener('click', () => {
-            if (audio.paused && localStorage.getItem('audioIsPlaying') === 'true') {
-                audio.play();
-                updateMusicUI(true);
-            }
-        }, { once: true });
-
-        function toggleMusic() {
-            if (audio.paused) {
-                audio.play();
-                updateMusicUI(true);
-            } else {
-                audio.pause();
-                updateMusicUI(false);
-            }
-        }
+    }, { once: true });
     </script>
 </body>
 </html>
