@@ -178,71 +178,78 @@
     </div>
 
     <script>
-        function updateClock() {
-            const sekarang = new Date();
-            const jam = String(sekarang.getHours()).padStart(2, '0');
-            const menit = String(sekarang.getMinutes()).padStart(2, '0');
-            const tgl = String(sekarang.getDate()).padStart(2, '0');
-            const bln = String(sekarang.getMonth() + 1).padStart(2, '0');
-            const thn = sekarang.getFullYear();
-            document.getElementById('taskbar-time').textContent = `${jam}.${menit}`;
-            document.getElementById('taskbar-date').textContent = `${tgl}/${bln}/${thn}`;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-        
-      const audio = document.getElementById('bgm');
+       function updateClock() {
+    const sekarang = new Date();
+    const jam = String(sekarang.getHours()).padStart(2, '0');
+    const menit = String(sekarang.getMinutes()).padStart(2, '0');
+    const tgl = String(sekarang.getDate()).padStart(2, '0');
+    const bln = String(sekarang.getMonth() + 1).padStart(2, '0');
+    const thn = sekarang.getFullYear();
+    document.getElementById('taskbar-time').textContent = `${jam}.${menit}`;
+    document.getElementById('taskbar-date').textContent = `${tgl}/${bln}/${thn}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
 
-    // 1. Cek memori browser pas halaman kebuka
-    window.addEventListener('load', () => {
-        const savedTime = localStorage.getItem('audioTime');
-        const isPlaying = localStorage.getItem('audioIsPlaying');
+// --- LOGIKA MUSIK ---
+const audio = document.getElementById('bgm');
+const musicBtn = document.getElementById('musicBtn');
 
-        if (savedTime) {
-            audio.currentTime = parseFloat(savedTime);
-        }
+// 1. Cek memori browser pas halaman kebuka
+window.addEventListener('load', () => {
+    const savedTime = localStorage.getItem('audioTime');
+    const savedStatus = localStorage.getItem('audioIsPlaying');
 
-        // Browser butuh interaksi user (klik apa aja) buat mulai putar
-        if (isPlaying === 'true') {
-            audio.play().catch(() => {
-                console.log("Menunggu interaksi user untuk lanjut musik...");
-            });
-        }
-    });
+    if (savedTime) {
+        audio.currentTime = parseFloat(savedTime);
+    }
 
-    // 2. Simpan posisi musik tiap 100 milidetik (biar akurat banget)
-    setInterval(() => {
-        if (!audio.paused) {
-            localStorage.setItem('audioTime', audio.currentTime);
-            localStorage.setItem('audioIsPlaying', 'true');
-        }
-    }, 100);
+    if (savedStatus === 'true') {
+        audio.play().then(() => {
+            musicBtn.innerText = "🎵";
+        }).catch(() => {
+            console.log("Menunggu klik user untuk lanjut musik...");
+            musicBtn.innerText = "🔇";
+        });
+    }
+});
 
-    // 3. Trigger pertama kali (biar musik jalan di halaman pertama)
-    document.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play();
-            localStorage.setItem('audioIsPlaying', 'true');
-        }
-    }, { once: true });
+// 2. Simpan posisi musik tiap 100ms
+setInterval(() => {
+    if (!audio.paused) {
+        localStorage.setItem('audioTime', audio.currentTime);
+        localStorage.setItem('audioIsPlaying', 'true');
+    } else {
+        localStorage.setItem('audioIsPlaying', 'false');
+    }
+}, 100);
 
-          var audio = document.getElementById('myAudio');
-          var isPlaying = false;
-        
-          function toggleMusic() {
-            if (isPlaying) {
-              audio.pause();
-              document.getElementById('musicBtn').innerText = "🔇";
-            } else {
-              audio.play();
-              document.getElementById('musicBtn').innerText = "🎵";
-            }
-            isPlaying = !isPlaying;
-          }
+// 3. Fungsi Klik Pertama (Untuk memicu suara pertama kali)
+document.addEventListener('click', () => {
+    if (audio.paused && localStorage.getItem('audioIsPlaying') !== 'false') {
+        audio.play();
+        musicBtn.innerText = "🎵";
+        localStorage.setItem('audioIsPlaying', 'true');
+    }
+}, { once: true });
+
+// 4. Fungsi Tombol On/Off
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play();
+        musicBtn.innerText = "🎵";
+        localStorage.setItem('audioIsPlaying', 'true');
+    } else {
+        audio.pause();
+        musicBtn.innerText = "🔇";
+        localStorage.setItem('audioIsPlaying', 'false');
+    }
+}
     </script>
 </body>
 
 </html>
+
 
 
 
