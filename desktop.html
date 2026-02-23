@@ -92,9 +92,30 @@
         .taskbar-right { color: white; text-align: right; }
         .taskbar-time { font-size: 14px; font-weight: 600; }
         .taskbar-date { font-size: 10px; opacity: 0.9; }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 120, 215, 0.8);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
+    <audio id="myAudio" loop>
+      <source src="ALLIWANT.mp3" type="audio/mpeg">
+      Browser kamu tidak mendukung tag audio.
+    </audio>
     <div class="desktop-screen">
         <div class="desktop-status-bar">
             <span>Operator</span>
@@ -146,6 +167,7 @@
             <div class="taskbar-left">
                 <button class="win-btn">⊞</button>
                 <button class="search-btn">🔍</button>
+                <div class="music-control" onclick="toggleMusic()" id="musicBtn">🎵</div>
             </div>
             <div class="taskbar-right">
                 <div id="taskbar-time" class="taskbar-time">00.00</div>
@@ -167,9 +189,29 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
+        
+        document.addEventListener('click', function() {
+        var audio = document.getElementById('myAudio');
+        audio.play();
+      }, { once: true });
+
+          var audio = document.getElementById('myAudio');
+          var isPlaying = false;
+        
+          function toggleMusic() {
+            if (isPlaying) {
+              audio.pause();
+              document.getElementById('musicBtn').innerText = "🔇";
+            } else {
+              audio.play();
+              document.getElementById('musicBtn').innerText = "🎵";
+            }
+            isPlaying = !isPlaying;
+          }
     </script>
 </body>
 
 </html>
+
 
 
