@@ -196,8 +196,14 @@ setInterval(updateClock, 1000);
 updateClock();
 
 // --- LOGIKA MUSIK ---
+// --- LOGIKA MUSIK ---
 const audio = document.getElementById('bgm');
 const musicBtn = document.getElementById('musicBtn');
+const musicIcon = musicBtn.querySelector('img'); // Ambil elemen gambarnya
+
+// Gambar ikon
+const iconOn = "https://win98icons.alexmeub.com/icons/png/loudspeaker_rays_green-0.png";
+const iconOff = "https://win98icons.alexmeub.com/icons/png/loudspeaker_muted-0.png";
 
 // 1. Cek memori browser pas halaman kebuka
 window.addEventListener('load', () => {
@@ -210,11 +216,13 @@ window.addEventListener('load', () => {
 
     if (savedStatus === 'true') {
         audio.play().then(() => {
-            musicBtn.innerText = "https://win98icons.alexmeub.com/icons/png/loudspeaker_rays_green-0.png";
+            musicIcon.src = iconOn;
         }).catch(() => {
             console.log("Menunggu klik user untuk lanjut musik...");
-            musicBtn.innerText = "https://win98icons.alexmeub.com/icons/png/loudspeaker_muted-0.png";
+            musicIcon.src = iconOff;
         });
+    } else {
+        musicIcon.src = iconOff;
     }
 });
 
@@ -232,7 +240,7 @@ setInterval(() => {
 document.addEventListener('click', () => {
     if (audio.paused && localStorage.getItem('audioIsPlaying') !== 'false') {
         audio.play();
-        musicBtn.innerText = "https://win98icons.alexmeub.com/icons/png/loudspeaker_rays_green-0.png";
+        musicIcon.src = iconOn;
         localStorage.setItem('audioIsPlaying', 'true');
     }
 }, { once: true });
@@ -241,11 +249,11 @@ document.addEventListener('click', () => {
 function toggleMusic() {
     if (audio.paused) {
         audio.play();
-        musicBtn.innerText = "https://win98icons.alexmeub.com/icons/png/loudspeaker_rays_green-0.png";
+        musicIcon.src = iconOn;
         localStorage.setItem('audioIsPlaying', 'true');
     } else {
         audio.pause();
-        musicBtn.innerText = "https://win98icons.alexmeub.com/icons/png/loudspeaker_muted-0.png";
+        musicIcon.src = iconOff;
         localStorage.setItem('audioIsPlaying', 'false');
     }
 }
@@ -253,6 +261,7 @@ function toggleMusic() {
 </body>
 
 </html>
+
 
 
 
