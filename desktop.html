@@ -84,7 +84,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .win-btn, .search-btn {
+        .win-btn, .search-btn , .music-btn{
             background: transparent; border: none; color: white;
             font-size: 24px; cursor: pointer;
         }
@@ -162,13 +162,17 @@
                 <img src="https://win98icons.alexmeub.com/icons/png/message_envelope_open-0.png" class="app-icon">
                 <span>Invitation</span>
             </div>
+
+             <div class="app-item" onclick="toggleMusic()" id="musicBtn">
+                <img src="https://win98icons.alexmeub.com/icons/png/loudspeaker_rays_green-0.png" class="app-icon">
+                <span>On/Of Music</span>
+            </div>
         </div>
     
         <div class="desktop-taskbar">
             <div class="taskbar-left">
                 <button class="win-btn">⊞</button>
                 <button class="search-btn">🔍</button>
-                <div class="music-control" onclick="toggleMusic()" id="musicBtn">🎵</div>
             </div>
             <div class="taskbar-right">
                 <div id="taskbar-time" class="taskbar-time">00.00</div>
@@ -206,10 +210,10 @@ window.addEventListener('load', () => {
 
     if (savedStatus === 'true') {
         audio.play().then(() => {
-            musicBtn.innerText = "🎵";
+            musicBtn.innerText = "https://win98icons.alexmeub.com/icons/png/loudspeaker_rays_green-0.png";
         }).catch(() => {
             console.log("Menunggu klik user untuk lanjut musik...");
-            musicBtn.innerText = "🔇";
+            musicBtn.innerText = "https://win98icons.alexmeub.com/icons/png/loudspeaker_muted-0.png";
         });
     }
 });
@@ -228,7 +232,7 @@ setInterval(() => {
 document.addEventListener('click', () => {
     if (audio.paused && localStorage.getItem('audioIsPlaying') !== 'false') {
         audio.play();
-        musicBtn.innerText = "🎵";
+        musicBtn.innerText = "https://win98icons.alexmeub.com/icons/png/loudspeaker_rays_green-0.png";
         localStorage.setItem('audioIsPlaying', 'true');
     }
 }, { once: true });
@@ -237,11 +241,11 @@ document.addEventListener('click', () => {
 function toggleMusic() {
     if (audio.paused) {
         audio.play();
-        musicBtn.innerText = "🎵";
+        musicBtn.innerText = "https://win98icons.alexmeub.com/icons/png/loudspeaker_rays_green-0.png";
         localStorage.setItem('audioIsPlaying', 'true');
     } else {
         audio.pause();
-        musicBtn.innerText = "🔇";
+        musicBtn.innerText = "https://win98icons.alexmeub.com/icons/png/loudspeaker_muted-0.png";
         localStorage.setItem('audioIsPlaying', 'false');
     }
 }
@@ -249,6 +253,7 @@ function toggleMusic() {
 </body>
 
 </html>
+
 
 
 
