@@ -147,26 +147,10 @@
             width: 100%; padding: 5px; font-size: 12px; background: #c0c0c0;
             border: 2px solid; border-color: #ffffff #808080 #808080 #ffffff; cursor: pointer;
     </style>
-    <audio id="bgm" loop>
-      <source src="music/ALLIWANT.mp3" type="audio/mpeg">
-    </audio>
 </head>
 <body>
 
     <div class="desktop-screen">
-          <div class="music-control-fab" id="musicFab">🎵</div>
-
-        <div class="music-popup" id="musicPopup">
-            <div class="popup-header">
-                <span>Media Player</span>
-                <span onclick="togglePopup()" style="cursor:pointer">×</span>
-            </div>
-            <div style="padding:10px; text-align:center;">
-                <div style="font-size:10px; color:black; margin-bottom:5px;">ALL I WANT</div>
-                <button class="win98-btn" onclick="toggleMusic()" id="playBtn">Pause</button>
-            </div>
-        </div>
-
         <div class="window">
             <div class="title-bar">
                 <div class="title-left"><span style="color:#c131d6">✉</span> Message</div>
@@ -263,90 +247,8 @@ Happy Birthday again, Biass! 🎂✨`;
             startTyping();
         };
 
-            // --- LOGIKA GESER TOMBOL BULAT (DRAGGABLE FAB) ---
-    const fab = document.getElementById("musicFab");
-    const popup = document.getElementById("musicPopup");
-    let isDragging = false;
-    let startX, startY, moved = false;
-
-    // Fungsi mulai seret
-    const dragStart = (e) => {
-        isDragging = true;
-        moved = false;
-        const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
-        startX = clientX - fab.offsetLeft;
-        startY = clientY - fab.offsetTop;
-    };
-
-    // Fungsi sedang seret
-    const dragMove = (e) => {
-        if (!isDragging) return;
-        moved = true; // Menandai bahwa tombol digeser, bukan diklik
-        const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-        
-        let newX = clientX - startX;
-        let newY = clientY - startY;
-
-        fab.style.left = newX + "px";
-        fab.style.top = newY + "px";
-        fab.style.bottom = "auto"; 
-        fab.style.right = "auto";
-        
-        // Ikutkan posisi popup
-        popup.style.left = newX - 100 + "px"; 
-        popup.style.top = newY - 80 + "px";
-    };
-
-    // Fungsi selesai seret
-    const dragEnd = () => {
-        isDragging = false;
-    };
-
-    // Klik tombol (hanya jika tidak digeser)
-    fab.addEventListener("click", () => {
-        if (!moved) togglePopup();
-    });
-
-    fab.addEventListener("mousedown", dragStart);
-    document.addEventListener("mousemove", dragMove);
-    document.addEventListener("mouseup", dragEnd);
-
-    fab.addEventListener("touchstart", dragStart);
-    document.addEventListener("touchmove", dragMove);
-    document.addEventListener("touchend", dragEnd);
-
-    // --- MUSIK LOGIC ---
-    const audio = document.getElementById('bgm');
-    const playBtn = document.getElementById('playBtn');
-
-    function togglePopup() {
-        popup.style.display = (popup.style.display === 'flex') ? 'none' : 'flex';
-        // Posisikan popup di atas tombol
-        popup.style.left = fab.offsetLeft - 100 + "px";
-        popup.style.top = fab.offsetTop - 80 + "px";
-    }
-
-    function toggleMusic() {
-        if (audio.paused) {
-            audio.play(); playBtn.innerText = "Pause"; fab.innerText = "🎵"; localStorage.setItem('audioIsPlaying', 'true');
-        } else {
-            audio.pause(); playBtn.innerText = "Play"; fab.innerText = "🔇"; localStorage.setItem('audioIsPlaying', 'false');
-        }
-    }
-
-    window.onload = () => {
-        updateGallery(); updateClock(); setInterval(updateClock, 1000);
-        const savedTime = localStorage.getItem('audioTime');
-        if (savedTime) audio.currentTime = parseFloat(savedTime);
-        if (localStorage.getItem('audioIsPlaying') === 'true') {
-            audio.play().then(() => { fab.innerText = "🎵"; playBtn.innerText = "Pause"; }).catch(() => {});
-        }
-    };
-
-    setInterval(() => { if (!audio.paused) localStorage.setItem('audioTime', audio.currentTime); }, 500);
     </script>
 </body>
 
 </html>
+
